@@ -26,9 +26,6 @@ import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static final String flickr_photosets_getPhotos = "https://www.flickr.com/services/rest/" +
-            "?method=flickr.photosets.getPhotos&format=json&api_key=73fc40a69463a80783a192152e174078&photoset_id=72157623480041879";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,64 +41,4 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
-    class LoadImagesFromFlickrTask extends AsyncTask<String, Integer, List> {
-        private ProgressDialog progressDialog;
-        private Integer totalCount, currentIndex;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            //progressDialog.setMessage(String.format("Loading images from Flickr %s/%s. Please wait...", values[0], values[1]));
-        }
-
-        @Override
-        protected List doInBackground(String... params) {
-
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-            String resultJson = "";
-
-            try{
-                URL url = new URL(flickr_photosets_getPhotos);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-
-                resultJson = buffer.toString();
-
-            }catch (Exception e){
-
-            }
-
-            JSONObject Photos = null;
-            try {
-                Photos = new JSONObject(resultJson);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-           return new ArrayList();
-        }
-
-
-        protected void onPostExecute(ArrayList s) {
-            super.onPostExecute(s);
-        }
-    }
-}
+ }
