@@ -10,6 +10,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+
+        }
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
