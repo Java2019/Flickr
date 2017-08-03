@@ -1,12 +1,9 @@
 package com.nemo.flickr;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-/**
- * Created by use on 03.08.17.
- */
 public class SplashActivity extends AppCompatActivity {
 
     @Override
