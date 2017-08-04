@@ -1,9 +1,14 @@
 package com.nemo.flickr;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -27,11 +32,11 @@ public class FavoritesActivity extends AppCompatActivity {
                 File.separator + "FlickrImages");
         File[] filelist = folder.listFiles();
 
-        ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(filelist.length);
+       /* ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         Map<String, Object> m;
-        for (File file : filelist) {
+        for ( int i = 0; i < filelist.length; i++) {
             m = new HashMap<String, Object>();
-            m.put(ATTRIBUTE_NAME_IMAGE, file);
+            m.put(ATTRIBUTE_NAME_IMAGE, filelist[i]);
             data.add(m);
         }
 
@@ -41,7 +46,17 @@ public class FavoritesActivity extends AppCompatActivity {
         SimpleAdapter sAdapter = new SimpleAdapter(this, data, R.layout.rowlayout, from, to);
 
         lvSimple = (ListView) findViewById(R.id.LView);
-        lvSimple.setAdapter(sAdapter);
+        lvSimple.setAdapter(sAdapter);*/
+        //Log.d("456454", filelist[1].getAbsolutePath());
+        try {
+            File file = new File(folder + "/test.JPG");
+            Bitmap myBitmap = BitmapFactory.decodeFile(filelist[0].toString());
+            ImageView imageView = (ImageView) findViewById(R.id.LView);
+            imageView.setImageBitmap(myBitmap);
+        }catch (Exception e){
 
+        }
     }
+
+
 }

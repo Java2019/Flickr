@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -158,11 +157,11 @@ public class MainActivity extends AppCompatActivity {
 
                     BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
                     Bitmap bitmap = drawable.getBitmap();
-                    File image = new File(folder, "test.png");
+                    File image = new File(folder, "test1.JPEG");
                     FileOutputStream outStream;
                     try {
                         outStream = new FileOutputStream(image);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                         outStream.flush();
                         outStream.close();
                     } catch (FileNotFoundException e) {
