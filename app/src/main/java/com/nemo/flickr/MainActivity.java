@@ -1,6 +1,7 @@
 package com.nemo.flickr;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -27,9 +28,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = (ImageView)findViewById(R.id.image);
+        imageView = (ImageView) findViewById(R.id.image);
 
         LoadImagesFromFlickrTask loadImagesFromFlickrTask = new LoadImagesFromFlickrTask();
         loadImagesFromFlickrTask.execute();
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             String linkPhoto = "";
             Bitmap bitmap = null;
 
-            try{
+            try {
                 URL url = new URL(flickr_photosets_getPhotos);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -90,40 +88,41 @@ public class MainActivity extends AppCompatActivity {
 
                 resultJson = buffer.toString();
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
-            try{
-            JSONObject json = new JSONObject(resultJson);
-            JSONObject photos = json.getJSONObject("photoset");
-            JSONArray photo = photos.getJSONArray("photo");
-            if (photo.length() > 0) {
+            try {
+                JSONObject json = new JSONObject(resultJson);
+                JSONObject photos = json.getJSONObject("photoset");
+                JSONArray photo = photos.getJSONArray("photo");
+                if (photo.length() > 0) {
 
-                JSONObject first = photo.getJSONObject(0);
+                    JSONObject first = photo.getJSONObject(0);
 
-                String FARMID = first.getString("farm");
-                String SERVERID = first.getString("server");
-                String SECRET = first.getString("secret");
-                String ID = first.getString("id");
+                    String FARMID = first.getString("farm");
+                    String SERVERID = first.getString("server");
+                    String SECRET = first.getString("secret");
+                    String ID = first.getString("id");
 
-                StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
 
-                sb.append("http://farm");
-                sb.append(FARMID);
-                sb.append(".static.flickr.com/");
-                sb.append(SERVERID);
-                sb.append("/");
-                sb.append(ID);
-                sb.append("_");
-                sb.append(SECRET);
-                sb.append("_m");
-                sb.append(".jpg");
+                    sb.append("http://farm");
+                    sb.append(FARMID);
+                    sb.append(".static.flickr.com/");
+                    sb.append(SERVERID);
+                    sb.append("/");
+                    sb.append(ID);
+                    sb.append("_");
+                    sb.append(SECRET);
+                    sb.append("_m");
+                    sb.append(".jpg");
 
-                linkPhoto = sb.toString();
+                    linkPhoto = sb.toString();
 
-                bitmap = BitmapFactory.decodeStream((InputStream)new URL(linkPhoto).getContent());
+                    bitmap = BitmapFactory.decodeStream((InputStream) new URL(linkPhoto).getContent());
 
-            } } catch (JSONException e) {
+                }
+            } catch (JSONException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(Bitmap bitmap) {
-            ImageView i = (ImageView)findViewById(R.id.image);
+            ImageView i = (ImageView) findViewById(R.id.image);
             i.setImageBitmap(bitmap);
         }
     }
@@ -147,26 +146,35 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.save:
-                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                Bitmap bitmap = drawable.getBitmap();
-                File sdCardDirectory = Environment.getExternalStorageDirectory();
-                File image = new File(sdCardDirectory, "test.png");
-                FileOutputStream outStream;
-                try {
-                    outStream = new FileOutputStream(image);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-                    outStream.flush();
-                    outStream.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                File folder = new File(Environment.getExternalStorageDirectory() +
+                        File.separator + "FlickrImages");
+                boolean success = true;
+                if (!folder.exists()) {
+                    success = folder.mkdirs();
+                }
+                if (success) {
+
+                    BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+                    File image = new File(folder, "test.png");
+                    FileOutputStream outStream;
+                    try {
+                        outStream = new FileOutputStream(image);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                        outStream.flush();
+                        outStream.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case R.id.favor:
-
+                Intent intent = new Intent(this, FavoritesActivity.class);
+                startActivity(intent);
                 break;
         }
         return true;
