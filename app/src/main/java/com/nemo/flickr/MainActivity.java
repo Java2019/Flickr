@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import org.apache.http.NameValuePair;
@@ -24,10 +25,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import com.hintdesk.core.utils.JSONHttpClient;
-import com.nemo.flickr.flickrutil.JSONObject.PhotosJSON;
-import com.nemo.flickr.flickrutil.Size;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -136,6 +133,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.save:
+
+                break;
+            case R.id.favor:
+
+                break;
+        }
         return true;
     }
 }

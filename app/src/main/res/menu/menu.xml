@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/Save"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:Flickr="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/save"
+        android:title="@string/Save"
+        Flickr:showAsAction="always"/>
+    <item
+        android:id="@+id/favor"
+        android:title="@string/Favor"
+        Flickr:showAsAction="always"/>
 </menu>
