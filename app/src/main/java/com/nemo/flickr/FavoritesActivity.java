@@ -28,6 +28,7 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
+
         File folder = new File(Environment.getExternalStorageDirectory() +
                 File.separator + "FlickrImages");
         File[] filelist = folder.listFiles();
